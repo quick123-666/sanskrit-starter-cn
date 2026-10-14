@@ -1,0 +1,688 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>梵语学习 · Learn Sanskrit</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='30' fill='%23C0562F'/%3E%3Ctext x='32' y='44' font-size='36' text-anchor='middle' fill='%23F7F1E6' font-family='serif'%3E%E0%A5%90%3C/text%3E%3C/svg%3E">
+<style>
+/* ============ 基础与色板 ============ */
+:root{
+  --ink:#3B2A20;
+  --ink-2:#5A4636;
+  --saffron:#C0562F;
+  --saffron-dark:#A44522;
+  --sand:#F7F1E6;
+  --card:#FFFFFF;
+  --gold:#D9A45B;
+  --teal:#3E6B5C;
+  --teal-bg:#E7EFEA;
+  --muted:#8A7764;
+  --line:#E4D9C6;
+  --dev:'Nirmala UI','Mangal','Kohinoor Devanagari','Noto Sans Devanagari',serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:auto}
+body{font-family:'Microsoft YaHei','PingFang SC','Noto Sans SC','Segoe UI',sans-serif;background:var(--sand);color:var(--ink);font-size:15px;line-height:1.7}
+img{max-width:100%;display:block}
+a{color:var(--saffron);text-decoration:none}
+a:hover{color:var(--saffron-dark)}
+button{font-family:inherit;cursor:pointer;border:none;background:none}
+.dev{font-family:var(--dev)}
+
+/* ============ 顶部导航 ============ */
+.topnav{position:sticky;top:0;z-index:50;background:var(--ink);color:#F7F1E6;box-shadow:0 2px 8px rgba(59,42,32,.25)}
+.topnav-inner{max-width:1120px;margin:0 auto;display:flex;align-items:center;gap:8px;padding:10px 16px}
+.logo{display:flex;align-items:center;gap:10px;flex:0 0 auto}
+.logo-om{width:38px;height:38px;border-radius:50%;background:var(--saffron);color:#F7F1E6;display:flex;align-items:center;justify-content:center;font-size:22px;font-family:var(--dev)}
+.logo-txt{font-weight:700;font-size:16px;letter-spacing:1px}
+.logo-sub{font-size:11px;color:#CBB9A4}
+.nav-links{display:flex;gap:2px;margin-left:auto;overflow-x:auto;scrollbar-width:none}
+.nav-links::-webkit-scrollbar{display:none}
+.nav-btn{padding:8px 12px;border-radius:6px;color:#E8DCC8;font-size:14px;white-space:nowrap;transition:background .15s,color .15s}
+.nav-btn:hover{background:rgba(255,255,255,.1);color:#fff}
+.nav-btn.active{background:var(--saffron);color:#fff;font-weight:600}
+
+/* ============ 主容器与视图 ============ */
+main{max-width:1120px;margin:0 auto;padding:20px 16px 60px}
+.view{display:none}
+.view.active{display:block}
+.section-title{font-size:22px;font-weight:700;margin:6px 0 2px}
+.section-sub{color:var(--muted);font-size:13px;margin-bottom:16px}
+.lead{font-size:15px;color:var(--ink-2)}
+
+/* ============ 首页 Hero ============ */
+.hero{background:linear-gradient(135deg,#FFF8EC 0%,#F3E4CE 100%);border:1px solid var(--line);border-radius:16px;padding:28px 22px;display:flex;align-items:center;gap:24px;flex-wrap:wrap}
+.hero-om{font-size:88px;line-height:1;color:var(--saffron);font-family:var(--dev);flex:0 0 auto}
+.hero-txt{flex:1;min-width:260px}
+.hero h1{font-size:26px;font-weight:800;margin-bottom:6px}
+.hero p{color:var(--ink-2);font-size:14px;margin-bottom:4px}
+.hero-tag{display:inline-block;background:var(--saffron);color:#fff;font-size:12px;padding:3px 10px;border-radius:20px;margin-top:8px}
+.stats{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:18px}
+.stat-card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px;text-align:center}
+.stat-num{font-size:26px;font-weight:800;color:var(--saffron)}
+.stat-label{font-size:12px;color:var(--muted);margin-top:2px}
+.quick-grid{display:grid;grid-template-columns:1fr;gap:10px;margin-top:18px}
+.quick-card{display:flex;align-items:center;gap:14px;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px;transition:transform .12s,box-shadow .12s;text-align:left;width:100%}
+.quick-card:hover{transform:translateY(-2px);box-shadow:0 4px 12px rgba(59,42,32,.12)}
+.quick-ic{width:44px;height:44px;border-radius:10px;background:var(--teal-bg);color:var(--teal);display:flex;align-items:center;justify-content:center;font-size:20px;flex:0 0 auto}
+.quick-ic.saff{background:#F6E4D6;color:var(--saffron)}
+.quick-ic.gold{background:#F7EDD8;color:#A87B2F}
+.quick-t{font-weight:700;font-size:15px}
+.quick-d{font-size:12px;color:var(--muted);margin-top:2px}
+.progress-block{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px;margin-top:18px}
+.progress-head{display:flex;justify-content:space-between;align-items:baseline;font-size:13px;color:var(--muted);margin-bottom:8px}
+.progress-head b{color:var(--ink);font-size:15px}
+.bar{height:10px;background:#EDE4D4;border-radius:6px;overflow:hidden}
+.bar-fill{height:100%;background:linear-gradient(90deg,var(--saffron),var(--gold));border-radius:6px;transition:width .3s}
+
+/* ============ 字母表 ============ */
+.tabs{display:flex;gap:6px;flex-wrap:wrap;margin:14px 0}
+.tab-btn{padding:7px 14px;border-radius:20px;background:#fff;border:1px solid var(--line);color:var(--ink-2);font-size:13px;transition:all .12s}
+.tab-btn:hover{border-color:var(--saffron);color:var(--saffron)}
+.tab-btn.active{background:var(--saffron);border-color:var(--saffron);color:#fff;font-weight:600}
+.alphabet-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:6px}
+.letter-card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px;text-align:center;transition:border-color .12s,transform .12s;min-height:118px;display:flex;flex-direction:column;justify-content:center}
+.letter-card:hover{border-color:var(--gold);transform:translateY(-2px)}
+.letter-card .dev-char{font-family:var(--dev);font-size:40px;line-height:1.2;color:var(--ink)}
+.letter-card .iast{font-size:14px;font-weight:700;color:var(--saffron);margin-top:4px}
+.letter-card .zh{font-size:12px;color:var(--ink-2);margin-top:2px}
+.letter-card .grp{font-size:10px;color:var(--muted);margin-top:6px;background:#F3EBDE;border-radius:10px;padding:1px 8px;align-self:center}
+.letter-card.learned{border-color:var(--teal);background:var(--teal-bg)}
+.letter-card.learned .dev-char{color:var(--teal)}
+.letter-card .check{position:absolute;top:6px;right:8px;color:var(--teal);font-size:14px;display:none}
+.letter-card{position:relative}
+.letter-card.learned .check{display:block}
+.letter-card .tip{font-size:11px;color:var(--muted);margin-top:3px;line-height:1.5}
+.poster-wrap{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px;margin-bottom:4px;display:flex;gap:14px;flex-wrap:wrap;align-items:center}
+.poster-wrap img{width:150px;border-radius:8px;border:1px solid var(--line)}
+.poster-txt{flex:1;min-width:200px;font-size:13px;color:var(--ink-2)}
+
+/* ============ 发音规则 ============ */
+.sound-card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px;margin-bottom:12px}
+.sound-card h3{font-size:16px;margin-bottom:8px;display:flex;align-items:center;gap:8px}
+.sound-card h3 .dot{width:10px;height:10px;border-radius:50%;background:var(--saffron);display:inline-block}
+.sound-card p{font-size:13.5px;color:var(--ink-2);margin-bottom:6px}
+.letter-row{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
+.letter-chip{background:#F6EDE0;border:1px solid var(--line);border-radius:8px;padding:6px 10px;text-align:center;font-size:12px}
+.letter-chip .d{font-family:var(--dev);font-size:22px;display:block;color:var(--ink)}
+.letter-chip .t{color:var(--saffron);font-size:11px;font-weight:700}
+.sound-table{width:100%;border-collapse:collapse;margin-top:10px;font-size:13px}
+.sound-table th,.sound-table td{border:1px solid var(--line);padding:8px;text-align:center}
+.sound-table th{background:#F3EBDE;font-weight:700;color:var(--ink-2)}
+.sound-table .d{font-family:var(--dev);font-size:20px}
+.rule-list{list-style:none}
+.rule-list li{padding:9px 0;border-bottom:1px dashed var(--line);font-size:13.5px;color:var(--ink-2)}
+.rule-list li:last-child{border-bottom:none}
+.rule-list b{color:var(--saffron)}
+
+/* ============ 课程 ============ */
+.lesson-card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px;margin-bottom:12px}
+.lesson-card h3{font-size:16px;margin-bottom:6px}
+.lesson-card .meta{font-size:12px;color:var(--muted);margin-bottom:8px}
+.example-box{background:#F6EDE0;border-left:4px solid var(--saffron);border-radius:8px;padding:10px 14px;margin:8px 0;font-size:13.5px}
+.example-box .dev-line{font-family:var(--dev);font-size:22px;color:var(--ink);display:block;margin-bottom:2px}
+.example-box .tr{color:var(--saffron);font-weight:700}
+.example-box .gl{color:var(--muted);font-size:12.5px}
+.chapter-list{display:grid;grid-template-columns:1fr;gap:8px;margin-top:8px}
+.chapter{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:10px 14px;display:flex;align-items:center;gap:12px}
+.chapter .no{width:34px;height:34px;border-radius:50%;background:var(--teal-bg);color:var(--teal);font-weight:800;display:flex;align-items:center;justify-content:center;font-size:14px;flex:0 0 auto}
+.chapter .t{font-size:14px;font-weight:600}
+.chapter .d{font-size:12px;color:var(--muted)}
+
+/* ============ 打卡 ============ */
+.checkin-form{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px;margin-bottom:14px}
+.checkin-form h3{font-size:16px;margin-bottom:10px}
+.field{margin-bottom:10px}
+.field label{display:block;font-size:13px;color:var(--ink-2);margin-bottom:6px;font-weight:600}
+.chk-group{display:flex;flex-wrap:wrap;gap:8px}
+.chk-item{display:flex;align-items:center;gap:6px;background:#F7F1E6;border:1px solid var(--line);border-radius:8px;padding:8px 12px;font-size:13px;cursor:pointer;min-height:44px}
+.chk-item input{width:18px;height:18px;accent-color:var(--saffron)}
+.chk-item.checked{background:var(--teal-bg);border-color:var(--teal);color:var(--teal)}
+input[type=number]{width:110px;padding:10px 12px;border:1px solid var(--line);border-radius:8px;font-size:16px;background:#fff;color:var(--ink)}
+.primary-btn{background:var(--saffron);color:#fff;padding:11px 22px;border-radius:8px;font-size:15px;font-weight:600;min-height:44px;transition:background .12s}
+.primary-btn:hover{background:var(--saffron-dark)}
+.log-list{list-style:none}
+.log-item{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:12px 14px;margin-bottom:8px;display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.log-item .when{font-size:12px;color:var(--muted);flex:0 0 auto}
+.log-item .what{font-size:13.5px;flex:1;min-width:180px}
+.log-item .mins{color:var(--teal);font-weight:700;font-size:13px}
+.empty-tip{color:var(--muted);font-size:13px;text-align:center;padding:24px 0}
+
+/* ============ 素材与页脚 ============ */
+.mat-grid{display:grid;grid-template-columns:1fr;gap:10px;margin-top:10px}
+.mat-card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px;display:flex;gap:12px;align-items:center}
+.mat-card .file-ic{width:42px;height:42px;border-radius:8px;background:#F6E4D6;color:var(--saffron);display:flex;align-items:center;justify-content:center;font-size:18px;flex:0 0 auto}
+.mat-card .t{font-size:14px;font-weight:700}
+.mat-card .d{font-size:12px;color:var(--muted)}
+.mat-card .sz{font-size:11px;color:var(--muted);margin-top:2px}
+.mat-card a{font-size:13px;color:var(--saffron);font-weight:600}
+.footer{max-width:1120px;margin:0 auto;padding:18px 16px 30px;color:var(--muted);font-size:12px;border-top:1px solid var(--line)}
+.footer .src{font-size:11px;margin-top:4px}
+
+/* ============ 桌面扩展 ============ */
+@media (min-width:768px){
+  .stats{grid-template-columns:repeat(4,1fr)}
+  .quick-grid{grid-template-columns:repeat(2,1fr)}
+  .alphabet-grid{grid-template-columns:repeat(4,1fr)}
+  .chapter-list{grid-template-columns:repeat(2,1fr)}
+  .mat-grid{grid-template-columns:repeat(2,1fr)}
+  .hero{padding:36px 34px}
+  .hero-om{font-size:120px}
+}
+@media (min-width:1024px){
+  .alphabet-grid{grid-template-columns:repeat(6,1fr)}
+}
+</style>
+</head>
+<body>
+
+<header class="topnav">
+  <div class="topnav-inner">
+    <div class="logo">
+      <div class="logo-om">ॐ</div>
+      <div>
+        <div class="logo-txt">梵语学习</div>
+        <div class="logo-sub">Learn Sanskrit · 中文界面</div>
+      </div>
+    </div>
+    <nav class="nav-links">
+      <button class="nav-btn active" data-view="home">首页</button>
+      <button class="nav-btn" data-view="alphabet">字母表</button>
+      <button class="nav-btn" data-view="sounds">发音规则</button>
+      <button class="nav-btn" data-view="lessons">课程</button>
+      <button class="nav-btn" data-view="checkin">学习打卡</button>
+    </nav>
+  </div>
+</header>
+
+<main>
+<!-- ===== 视图：首页 ===== -->
+<section class="view active" id="view-home">
+  <div class="hero">
+    <div class="hero-om dev">ॐ</div>
+    <div class="hero-txt">
+      <h1>梵语学习应用</h1>
+      <p>改编自 GitHub 开源项目 <b>Learn-sanskrit</b> —— 一位非印地语母语者的梵语自学旅程记录，现已整理为中文界面的交互式学习工具。</p>
+      <p>教材体系依据 learnsanskrit.org《Sanskrit for Beginners》印刷版，含字母表、发音规则、基础课程与学习打卡。</p>
+      <span class="hero-tag">从零开始 · 中文讲解</span>
+    </div>
+  </div>
+
+  <div class="stats">
+    <div class="stat-card"><div class="stat-num" id="stat-letters">48</div><div class="stat-label">基础字母（教材体系）</div></div>
+    <div class="stat-card"><div class="stat-num" id="stat-lessons">17</div><div class="stat-label">核心课程（Core Lessons）</div></div>
+    <div class="stat-card"><div class="stat-num">3</div><div class="stat-label">配套教材（PDF）</div></div>
+    <div class="stat-card"><div class="stat-num" id="stat-mastered">0</div><div class="stat-label">已学会字母</div></div>
+  </div>
+
+  <div class="progress-block">
+    <div class="progress-head"><span>字母学习进度</span><b id="prog-txt">0 / 48</b></div>
+    <div class="bar"><div class="bar-fill" id="prog-bar" style="width:0%"></div></div>
+  </div>
+
+  <div class="quick-grid">
+    <button class="quick-card" data-goto="alphabet">
+      <div class="quick-ic saff dev">अ</div>
+      <div><div class="quick-t">字母表</div><div class="quick-d">14 元音 · 25 辅音 · 4 半元音 · 4 咝音类 · 2 辅助符号，逐卡学习并标记掌握</div></div>
+    </button>
+    <button class="quick-card" data-goto="sounds">
+      <div class="quick-ic gold dev">क</div>
+      <div><div class="quick-t">发音规则</div><div class="quick-d">五个发音部位、清浊与送气、长短元音、复合元音——发音对照表全图</div></div>
+    </button>
+    <button class="quick-card" data-goto="lessons">
+      <div class="quick-ic dev">योग</div>
+      <div><div class="quick-t">基础课程与语法</div><div class="quick-d">梵语三种词类、音变与造词示例、17 课核心课程、传统语法（波你尼）概览</div></div>
+    </button>
+    <button class="quick-card" data-goto="checkin">
+      <div class="quick-ic dev">॥</div>
+      <div><div class="quick-t">学习打卡</div><div class="quick-d">记录每日练习内容与时长，延续原项目的日志打卡习惯</div></div>
+    </button>
+  </div>
+</section>
+
+<!-- ===== 视图：字母表 ===== -->
+<section class="view" id="view-alphabet">
+  <div class="section-title">梵语字母表</div>
+  <div class="section-sub">点击字母卡片可标记"已学会"（保存在本机浏览器）；分类依据教材体系与发音对照表</div>
+
+  <div class="poster-wrap">
+    <img src="assets/sanskrit_alphabet_small_poster.jpg" alt="天城体字母表海报">
+    <div class="poster-txt">
+      <b>天城体（Devanagari）字母海报</b><br>
+      原仓库自带字母表海报。梵语传统用天城体书写，教材同时提供罗马转写（IAST），本应用两种形式并排展示。完成核心课程后再专门学习天城体书写亦可。
+    </div>
+  </div>
+
+  <div class="tabs" id="alpha-tabs">
+    <button class="tab-btn active" data-filter="all">全部 <span id="cnt-all"></span></button>
+    <button class="tab-btn" data-filter="vowel">元音 <span id="cnt-vowel"></span></button>
+    <button class="tab-btn" data-filter="consonant">辅音 <span id="cnt-consonant"></span></button>
+    <button class="tab-btn" data-filter="semivowel">半元音与咝音 <span id="cnt-semivowel"></span></button>
+    <button class="tab-btn" data-filter="aux">辅助符号 <span id="cnt-aux"></span></button>
+  </div>
+
+  <div class="alphabet-grid" id="alphabet-grid"></div>
+</section>
+
+<!-- ===== 视图：发音规则 ===== -->
+<section class="view" id="view-sounds">
+  <div class="section-title">发音规则</div>
+  <div class="section-sub">来自教材第 1.2–1.6 课（基础元音、半元音、复合元音、辅音）要点整理</div>
+
+  <div class="sound-card">
+    <h3><span class="dot"></span>梵语的声音：为何重要</h3>
+    <p>梵语的声音经常因<b>音变规则（sandhi）</b>而改变。先学好声音本身，才能理解并运用这些规则。学习梵语的传统起点就是认识全部字母的发音。</p>
+    <div class="example-box">
+      <span class="dev-line">कृष्णः न युध्यते → कृष्णो न युध्यते</span>
+      <span class="tr">kṛṣṇaḥ na yudhyate → kṛṣṇo na yudhyate</span>
+      <span class="gl">克里希纳不战斗。—— 一个简单的音变示例（ḥ + n → o + n）</span>
+    </div>
+  </div>
+
+  <div class="sound-card">
+    <h3><span class="dot"></span>五个发音部位</h3>
+    <p>改变舌与唇的位置即可发出不同声音。梵语使用<b>五个基本发音部位</b>，各生成一组辅音（每组 5 个：不送气清音 → 送气清音 → 不送气浊音 → 送气浊音 → 鼻音）：</p>
+    <div class="letter-row">
+      <div class="letter-chip"><span class="d dev">क ख ग घ ङ</span><span class="t">软腭（喉音）ka kha ga gha ṅa</span></div>
+      <div class="letter-chip"><span class="d dev">च छ ज झ ञ</span><span class="t">硬腭 ca cha ja jha ña</span></div>
+      <div class="letter-chip"><span class="d dev">ट ठ ड ढ ण</span><span class="t">卷舌（上颚凸起）ṭa ṭha ḍa ḍha ṇa</span></div>
+      <div class="letter-chip"><span class="d dev">त थ द ध न</span><span class="t">齿（牙根）ta tha da dha na</span></div>
+      <div class="letter-chip"><span class="d dev">प फ ब भ म</span><span class="t">唇 pa pha ba bha ma</span></div>
+    </div>
+  </div>
+
+  <div class="sound-card">
+    <h3><span class="dot"></span>清浊 · 送气 · 鼻音</h3>
+    <ul class="rule-list">
+      <li><b>清音 vs 浊音（voicing）</b>：手指轻触喉咙，发 "sss"（清）与 "zzz"（浊）能感到声带振动。辅音 ka 为清、ga 为浊；所有元音都是浊音。</li>
+      <li><b>送气 vs 不送气（aspiration）</b>：气流持续轻柔而出为不送气（ka），气流有力且带额外气息为送气（kha）。"送气"即"带更多呼吸"。</li>
+      <li><b>鼻音</b>：把气流改道从鼻腔通过即得鼻音——五组中第 5 个字母：ṅa ña ṇa na ma。</li>
+    </ul>
+  </div>
+
+  <div class="sound-card">
+    <h3><span class="dot"></span>长短元音与复合元音</h3>
+    <ul class="rule-list">
+      <li><b>短音翻倍变长音</b>：a 加倍得 ā（时长约为 a 的两倍）；同理 i→ī、ṛ→ṝ、u→ū。ḷ 罕见，无长音。</li>
+      <li><b>复合元音（总是长音）</b>：(a,ā)+(i,ī)→e；(a,ā)+(u,ū)→o；(a,ā)+e→ai；(a,ā)+o→au。a 再组合不再产生新音。</li>
+      <li><b>非 a/ā 开头时</b>：首元音变半元音——i/ī→y、ṛ/ṝ→r、ḷ→l、u/ū→v，如 (i,ī)+a→ya。</li>
+    </ul>
+    <table class="sound-table">
+      <tr><th>类别</th><th>字母（天城体 / IAST）</th><th>说明</th></tr>
+      <tr><td>简单短元音</td><td><span class="d dev">अ इ उ ऋ ऌ</span> a i u ṛ ḷ</td><td>基础发音</td></tr>
+      <tr><td>简单长元音</td><td><span class="d dev">आ ई ऊ ॠ</span> ā ī ū ṝ</td><td>短音两倍时长</td></tr>
+      <tr><td>复合元音</td><td><span class="d dev">ए ऐ ओ औ</span> e ai o au</td><td>两音合成，恒为长音</td></tr>
+      <tr><td>半元音</td><td><span class="d dev">य र ल व</span> ya ra la va</td><td>与对应元音同发音部位</td></tr>
+    </table>
+  </div>
+
+  <div class="sound-card">
+    <h3><span class="dot"></span>发音对照总表</h3>
+    <p>原仓库提供的字母分类发音对照动图（含全部元音、辅音八类与 anusvāra / visarga）：</p>
+    <img src="assets/letter-with-pronunciations.gif" alt="梵文字母发音对照表" style="margin:10px auto;max-width:420px;border:1px solid var(--line);border-radius:8px">
+  </div>
+</section>
+
+<!-- ===== 视图：课程（含基础课程与语法两个子标签，内容在第三批写入） ===== -->
+<section class="view" id="view-lessons">
+  <div class="tabs" id="lesson-tabs">
+    <button class="tab-btn active" data-ptab="basic">基础课程</button>
+    <button class="tab-btn" data-ptab="grammar">语法概览</button>
+    <button class="tab-btn" data-ptab="materials">配套教材</button>
+  </div>
+  <div id="ptab-basic">
+  <div class="section-title">基础课程 · 梵语入门</div>
+  <div class="section-sub">根据《Sanskrit for Beginners》第 1 章（The Sanskrit language）整理为中文讲解</div>
+
+  <div class="lesson-card">
+    <h3>1. 梵语是什么</h3>
+    <div class="meta">教材 1.1 课 · 核心课程引言</div>
+    <p>梵语的句子由三类基本词汇构成——<b>命名词</b>（指人、物、名，如 kṛṣṇa）、<b>动作词</b>（表行为，如 yudhyate"战斗"）、<b>杂词</b>（连接与修饰，如 na"不"）。同一个句子换不同重点看，三类词一目了然：</p>
+    <div class="example-box">
+      <span class="dev-line">कृष्णो न युध्यते।</span>
+      <span class="tr">kṛṣṇo na yudhyate.</span>
+      <span class="gl">克里希纳（命名词）不（杂词）战斗（动作词）—— 克里希纳不战斗。</span>
+    </div>
+  </div>
+
+  <div class="lesson-card">
+    <h3>2. 声音与音变</h3>
+    <div class="meta">教材 1.1 课 · 学习重点预告</div>
+    <p>课程先学梵语的<b>声音</b>：它们是什么、如何发音、如何互相影响。梵语有大量音变规则（sandhi），下面的例子是全书第一个音变：</p>
+    <div class="example-box">
+      <span class="dev-line">कृष्णः न → कृष्णो न</span>
+      <span class="tr">kṛṣṇaḥ na → kṛṣṇo na</span>
+      <span class="gl">句尾的 ḥ 与后随的 n 发生连音变化（细节后续课程解释）</span>
+    </div>
+  </div>
+
+  <div class="lesson-card">
+    <h3>3. 造词法示例</h3>
+    <div class="meta">教材 1.1 课 · 词根组合</div>
+    <p>学完核心课程后，你将能自己组合词根创造新词。教材给出的三个示例：</p>
+    <div class="example-box">
+      <span class="dev-line">युज् + अ → योग</span>
+      <span class="tr">yuj + a → yoga</span>
+      <span class="gl">联结、结合 → 瑜伽</span>
+    </div>
+    <div class="example-box">
+      <span class="dev-line">योग + इन् → योगिन्</span>
+      <span class="tr">yoga + in → yogin</span>
+      <span class="gl">瑜伽 → 瑜伽行者</span>
+    </div>
+    <div class="example-box">
+      <span class="dev-line">कर्मन् + योग → कर्मयोग</span>
+      <span class="tr">karman + yoga → karmayoga</span>
+      <span class="gl">业 + 瑜伽 → 业瑜伽</span>
+    </div>
+  </div>
+
+  <div class="lesson-card">
+    <h3>4. 核心课程 17 课（Core Lessons）</h3>
+    <div class="meta">教材 1 章 · 建立完整的梵语语法框架</div>
+    <div class="chapter-list" id="core-list"></div>
+  </div>
+
+  <div class="lesson-card">
+    <h3>5. 完整 12 章目录（初学者指南）</h3>
+    <div class="meta">《Sanskrit for Beginners》全书结构</div>
+    <div class="chapter-list" id="full-chapters"></div>
+  </div>
+</div>
+
+<div id="ptab-grammar" style="display:none">
+  <div class="section-title">语法概览 · 传统语法（波你尼体系）</div>
+  <div class="section-sub">根据《vyākaraṇa-praveśaḥ——传统梵语语法导论》目录整理；该导论围绕波你尼《八章书》（Aṣṭādhyāyī）展开</div>
+
+  <div class="lesson-card">
+    <h3>波你尼《八章书》</h3>
+    <div class="meta">vyākaraṇa 导论 · 0 章</div>
+    <p>传统梵语语法以公元前约四世纪波你尼（Pāṇini）的《八章书》（Aṣṭādhyāyī）为根基——用约 4000 条规则系统描述梵语的语音与词形变化，是历史上最早的形式化语法体系之一。导论先概要介绍梵语，再概述八章书的结构。</p>
+  </div>
+
+  <div class="lesson-card">
+    <h3>六大主题</h3>
+    <div class="meta">vyākaraṇa 导论 · 1–6 章</div>
+    <div class="chapter-list" id="grammar-topics"></div>
+  </div>
+
+  <div class="lesson-card">
+    <h3>两个视角的区别</h3>
+    <div class="meta">现代入门 vs 传统语法</div>
+    <ul class="rule-list">
+      <li><b>现代指南（Sanskrit for Beginners）</b>：按"学会使用"组织——字母 → 发音 → 连音 → 名词 → 动词 → 复合词 → 句子，直接能读能造。</li>
+      <li><b>传统导论（vyākaraṇa-praveśaḥ）</b>：按"波你尼体系"组织——Shiva Sutras 音韵学 → tiṅanta 动词 → subanta 名词 → kṛt/taddhita 派生 → samāsa 复合，适合精读古典文献时查阅。</li>
+    </ul>
+  </div>
+</div>
+
+<div id="ptab-materials" style="display:none">
+  <div class="section-title">配套教材</div>
+  <div class="section-sub">三份 PDF 已随应用放在 materials/ 目录，点击即可打开</div>
+  <div class="mat-grid">
+    <div class="mat-card">
+      <div class="file-ic">PDF</div>
+      <div style="flex:1">
+        <div class="t">Sanskrit for Beginners</div>
+        <div class="d">现代入门指南 · 12 章 · 约 1.1 MB</div>
+        <div class="sz">learnsanskrit.org 印刷版（2022）</div>
+        <a href="materials/Sanskrit-for-Beginners.pdf">打开教材</a>
+      </div>
+    </div>
+    <div class="mat-card">
+      <div class="file-ic">PDF</div>
+      <div style="flex:1">
+        <div class="t">Intensive Course in Sanskrit</div>
+        <div class="d">进阶密集课程 · 约 39 MB</div>
+        <div class="sz">中央印度语言研究所（Mysore）1958 · 主编 O.N. Koul</div>
+        <a href="materials/Intensive-course-in-Sanskrit.pdf">打开教材</a>
+      </div>
+    </div>
+    <div class="mat-card">
+      <div class="file-ic">PDF</div>
+      <div style="flex:1">
+        <div class="t">vyākaraṇa-praveśaḥ 传统梵语语法</div>
+        <div class="d">波你尼《八章书》体系导论 · 约 1.2 MB</div>
+        <div class="sz">learnsanskrit.org/vyakarana 印刷版（2022）</div>
+        <a href="materials/vyakarana-传统梵语语法.pdf">打开教材</a>
+      </div>
+    </div>
+  </div>
+  <div class="lesson-card" style="margin-top:14px">
+    <h3>在线资源（原项目 README 收录）</h3>
+    <ul class="rule-list">
+      <li><b>learnsanskrit.org</b> —— 本应用教材的在线版，含发音音频与天城文入门。</li>
+      <li><b>oursanskrit.com/sanskrit-grammar-reference</b> —— 字母发音参考。</li>
+      <li><b>Reddit r/sanskrit 资源合集帖</b> —— 更多学习材料汇总。</li>
+    </ul>
+  </div>
+</div>
+</section>
+
+<!-- ===== 视图：打卡 ===== -->
+<section class="view" id="view-checkin">
+  <div class="section-title">学习打卡</div>
+  <div class="section-sub">延续原项目"每次记录练习内容与时长"的习惯；数据保存在本机浏览器</div>
+
+  <div class="checkin-form">
+    <h3>记录今日学习</h3>
+    <div class="field">
+      <label>今天练习了什么？（可多选）</label>
+      <div class="chk-group" id="chk-items"></div>
+    </div>
+    <div class="field">
+      <label>练习时长（分钟）</label>
+      <input type="number" id="mins-input" min="1" max="600" value="30" placeholder="例如 30">
+    </div>
+    <button class="primary-btn" id="save-btn">保存今日记录</button>
+    <span id="save-msg" style="margin-left:10px;font-size:13px;color:var(--teal)"></span>
+  </div>
+
+  <div class="section-sub" style="margin-top:8px">历史记录</div>
+  <ul class="log-list" id="log-list"></ul>
+  <div class="empty-tip" id="log-empty">还没有记录。今天就开始第一次梵语练习吧——从字母表发音开始。</div>
+</section>
+</main>
+
+<footer class="footer">
+  内容来源：GitHub sridamul/Learn-sanskrit 仓库 · learnsanskrit.org《Sanskrit for Beginners》与《vyākaraṇa-praveśaḥ》印刷版 · Central Institute of Indian Languages《Intensive Course in Sanskrit》
+  <div class="src">字母统计口径：教材基础体系（13 元音 + 33 辅音 + 2 辅助符号 = 48）；原仓库学习日志另记 52 字母（含变体字形）。</div>
+</footer>
+
+<script>
+/* ============ 数据：字母表（教材体系，48 个基础字母） ============ */
+const LETTERS = [
+  // —— 元音 13 ——
+  {dev:'अ', iast:'a',  zh:'阿', type:'vowel',   grp:'简单元音 · 短', tip:'舌靠软腭，短音'},
+  {dev:'आ', iast:'ā',  zh:'阿 —', type:'vowel', grp:'简单元音 · 长', tip:'时长约为 a 的两倍'},
+  {dev:'इ', iast:'i',  zh:'伊', type:'vowel',   grp:'简单元音 · 短', tip:'舌中部靠近硬腭'},
+  {dev:'ई', iast:'ī',  zh:'伊 —', type:'vowel', grp:'简单元音 · 长', tip:'i 的长音'},
+  {dev:'उ', iast:'u',  zh:'乌', type:'vowel',   grp:'简单元音 · 短', tip:'用双唇发音'},
+  {dev:'ऊ', iast:'ū',  zh:'乌 —', type:'vowel', grp:'简单元音 · 长', tip:'u 的长音'},
+  {dev:'ऋ', iast:'ṛ',  zh:'日', type:'vowel',   grp:'简单元音 · 短', tip:'舌尖靠近上颚凸起'},
+  {dev:'ॠ', iast:'ṝ',  zh:'日 —', type:'vowel', grp:'简单元音 · 长', tip:'ṛ 的长音'},
+  {dev:'ऌ', iast:'ḷ',  zh:'勒', type:'vowel',   grp:'简单元音 · 短', tip:'罕见，无长音'},
+  {dev:'ए', iast:'e',  zh:'诶', type:'vowel',   grp:'复合元音 · 长', tip:'(a,ā)+(i,ī) 合成'},
+  {dev:'ऐ', iast:'ai', zh:'艾', type:'vowel',   grp:'复合元音 · 长', tip:'(a,ā)+e 合成'},
+  {dev:'ओ', iast:'o',  zh:'欧', type:'vowel',   grp:'复合元音 · 长', tip:'(a,ā)+(u,ū) 合成'},
+  {dev:'औ', iast:'au', zh:'奥', type:'vowel',   grp:'复合元音 · 长', tip:'(a,ā)+o 合成'},
+  // —— 辅音 25（五组 × 5） ——
+  {dev:'क', iast:'ka',  zh:'卡', type:'consonant', grp:'软腭 · 喉音', tip:'不送气清音'},
+  {dev:'ख', iast:'kha', zh:'卡（送气）', type:'consonant', grp:'软腭 · 喉音', tip:'送气清音'},
+  {dev:'ग', iast:'ga',  zh:'嘎', type:'consonant', grp:'软腭 · 喉音', tip:'不送气浊音'},
+  {dev:'घ', iast:'gha', zh:'嘎（送气）', type:'consonant', grp:'软腭 · 喉音', tip:'送气浊音'},
+  {dev:'ङ', iast:'ṅa',  zh:'嗯嘎', type:'consonant', grp:'软腭 · 喉音', tip:'鼻音'},
+  {dev:'च', iast:'ca',  zh:'恰', type:'consonant', grp:'硬腭音', tip:'不送气清音'},
+  {dev:'छ', iast:'cha', zh:'恰（送气）', type:'consonant', grp:'硬腭音', tip:'送气清音'},
+  {dev:'ज', iast:'ja',  zh:'贾', type:'consonant', grp:'硬腭音', tip:'不送气浊音'},
+  {dev:'झ', iast:'jha', zh:'贾（送气）', type:'consonant', grp:'硬腭音', tip:'送气浊音'},
+  {dev:'ञ', iast:'ña',  zh:'尼亚', type:'consonant', grp:'硬腭音', tip:'鼻音'},
+  {dev:'ट', iast:'ṭa',  zh:'塔（卷舌）', type:'consonant', grp:'卷舌音', tip:'舌尖触上颚凸起，不送气清音'},
+  {dev:'ठ', iast:'ṭha', zh:'塔（卷舌送气）', type:'consonant', grp:'卷舌音', tip:'送气清音'},
+  {dev:'ड', iast:'ḍa',  zh:'达（卷舌）', type:'consonant', grp:'卷舌音', tip:'不送气浊音'},
+  {dev:'ढ', iast:'ḍha', zh:'达（卷舌送气）', type:'consonant', grp:'卷舌音', tip:'送气浊音'},
+  {dev:'ण', iast:'ṇa',  zh:'那（卷舌）', type:'consonant', grp:'卷舌音', tip:'鼻音'},
+  {dev:'त', iast:'ta',  zh:'塔', type:'consonant', grp:'齿音', tip:'舌尖触牙根，不送气清音'},
+  {dev:'थ', iast:'tha', zh:'塔（送气）', type:'consonant', grp:'齿音', tip:'送气清音'},
+  {dev:'द', iast:'da',  zh:'达', type:'consonant', grp:'齿音', tip:'不送气浊音'},
+  {dev:'ध', iast:'dha', zh:'达（送气）', type:'consonant', grp:'齿音', tip:'送气浊音'},
+  {dev:'न', iast:'na',  zh:'那', type:'consonant', grp:'齿音', tip:'鼻音'},
+  {dev:'प', iast:'pa',  zh:'帕', type:'consonant', grp:'唇音', tip:'双唇闭合，不送气清音'},
+  {dev:'फ', iast:'pha', zh:'帕（送气）', type:'consonant', grp:'唇音', tip:'送气清音'},
+  {dev:'ब', iast:'ba',  zh:'巴', type:'consonant', grp:'唇音', tip:'不送气浊音'},
+  {dev:'भ', iast:'bha', zh:'巴（送气）', type:'consonant', grp:'唇音', tip:'送气浊音'},
+  {dev:'म', iast:'ma',  zh:'玛', type:'consonant', grp:'唇音', tip:'鼻音'},
+  // —— 半元音 4 ——
+  {dev:'य', iast:'ya', zh:'呀', type:'semivowel', grp:'半元音', tip:'与 i/ī 同发音部位'},
+  {dev:'र', iast:'ra', zh:'拉', type:'semivowel', grp:'半元音', tip:'与 ṛ/ṝ 同发音部位'},
+  {dev:'ल', iast:'la', zh:'啦', type:'semivowel', grp:'半元音', tip:'与 ḷ 同发音部位'},
+  {dev:'व', iast:'va', zh:'哇', type:'semivowel', grp:'半元音', tip:'与 u/ū 同发音部位'},
+  // —— 咝音 3 + ha 1 ——
+  {dev:'श', iast:'śa', zh:'夏', type:'sibilant', grp:'咝音', tip:'清音，硬腭区'},
+  {dev:'ष', iast:'ṣa', zh:'沙（卷舌）', type:'sibilant', grp:'咝音', tip:'清音，卷舌区'},
+  {dev:'स', iast:'sa', zh:'萨', type:'sibilant', grp:'咝音', tip:'清音，齿区'},
+  {dev:'ह', iast:'ha', zh:'哈', type:'sibilant', grp:'送气音', tip:'浊音'},
+  // —— 辅助符号 2 ——
+  {dev:'ं', iast:'ṃ', zh:'鼻音符号', type:'aux', grp:'anusvāra', tip:'使前一音鼻化'},
+  {dev:'ः', iast:'ḥ', zh:'送气符号', type:'aux', grp:'visarga', tip:'清送气，如 aḥ'},
+];
+const CHECKIN_OPTIONS = ['字母发音练习','天城体书写','读教材课程','背单词 / 造句','学习语法','复习已学内容'];
+
+/* ============ 状态 ============ */
+const LS_LEARNED = 'sanskrit_learned_v1';
+const LS_LOGS = 'sanskrit_logs_v1';
+let learned = new Set(JSON.parse(localStorage.getItem(LS_LEARNED) || '[]'));
+let logs = JSON.parse(localStorage.getItem(LS_LOGS) || '[]');
+let alphaFilter = 'all';
+
+/* ============ 工具 ============ */
+const $ = s => document.querySelector(s);
+const $$ = s => Array.from(document.querySelectorAll(s));
+function esc(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+function fmtDate(d){ return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')+' '+String(d.getHours()).padStart(2,'0')+':'+String(d.getMinutes()).padStart(2,'0'); }
+
+/* ============ 视图路由 ============ */
+function showView(name){
+  $$('.view').forEach(v => v.classList.remove('active'));
+  $('#view-'+name).classList.add('active');
+  $$('.nav-btn').forEach(b => b.classList.toggle('active', b.dataset.view === name));
+  if(name==='home') renderStats();
+  if(name==='alphabet') renderAlphabet();
+  if(name==='checkin') renderLogs();
+  window.scrollTo(0,0);
+}
+$$('.nav-btn').forEach(b => b.addEventListener('click', () => showView(b.dataset.view)));
+$$('.quick-card').forEach(c => c.addEventListener('click', () => showView(c.dataset.goto)));
+
+/* ============ 字母表 ============ */
+function counts(){
+  return {all:LETTERS.length, vowel:LETTERS.filter(l=>l.type==='vowel').length,
+          consonant:LETTERS.filter(l=>l.type==='consonant').length,
+          semivowel:LETTERS.filter(l=>l.type==='semivowel'||l.type==='sibilant').length,
+          aux:LETTERS.filter(l=>l.type==='aux').length};
+}
+function renderAlphabet(){
+  const c = counts();
+  ['all','vowel','consonant','semivowel','aux'].forEach(k => { const el = $('#cnt-'+k); if(el) el.textContent = c[k]; });
+  const list = LETTERS.filter(l => alphaFilter==='all' || l.type===alphaFilter);
+  $('#alphabet-grid').innerHTML = list.map(l => `
+    <div class="letter-card ${learned.has(l.iast)?'learned':''}" data-iast="${esc(l.iast)}" role="button" tabindex="0" aria-label="字母 ${esc(l.iast)}，已学会：${learned.has(l.iast)?'是':'否'}">
+      <span class="check">✓</span>
+      <div class="dev-char dev">${l.dev}</div>
+      <div class="iast">${esc(l.iast)}</div>
+      <div class="zh">${esc(l.zh)}</div>
+      <div class="tip">${esc(l.tip)}</div>
+      <div class="grp">${esc(l.grp)}</div>
+    </div>`).join('');
+  $$('#alphabet-grid .letter-card').forEach(card => {
+    const toggle = () => { const k = card.dataset.iast; learned.has(k) ? learned.delete(k) : learned.add(k); saveLearned(); renderAlphabet(); renderStats(); };
+    card.addEventListener('click', toggle);
+    card.addEventListener('keydown', e => { if(e.key==='Enter'||e.key===' '){ e.preventDefault(); toggle(); } });
+  });
+}
+$$('#alpha-tabs .tab-btn').forEach(b => b.addEventListener('click', () => {
+  alphaFilter = b.dataset.filter;
+  $$('#alpha-tabs .tab-btn').forEach(x => x.classList.toggle('active', x===b));
+  renderAlphabet();
+}));
+function saveLearned(){ localStorage.setItem(LS_LEARNED, JSON.stringify([...learned])); }
+
+/* ============ 进度与统计 ============ */
+function renderStats(){
+  const n = learned.size, total = LETTERS.length;
+  $('#stat-mastered').textContent = n;
+  $('#prog-txt').textContent = n + ' / ' + total;
+  $('#prog-bar').style.width = Math.round(n/total*100) + '%';
+}
+
+/* ============ 课程子标签 ============ */
+$$('#lesson-tabs .tab-btn').forEach(b => b.addEventListener('click', () => {
+  const k = b.dataset.ptab;
+  $$('#lesson-tabs .tab-btn').forEach(x => x.classList.toggle('active', x===b));
+  ['basic','grammar','materials'].forEach(id => { $('#ptab-'+id).style.display = (id===k ? 'block' : 'none'); });
+}));
+
+/* ============ 打卡 ============ */
+function renderCheckinOptions(){
+  $('#chk-items').innerHTML = CHECKIN_OPTIONS.map(o => `
+    <label class="chk-item" data-opt="${esc(o)}">
+      <input type="checkbox" value="${esc(o)}"> <span>${esc(o)}</span>
+    </label>`).join('');
+  $$('#chk-items .chk-item input').forEach(inp => inp.addEventListener('change', () => {
+    inp.closest('.chk-item').classList.toggle('checked', inp.checked);
+  }));
+}
+function renderLogs(){
+  $('#log-list').innerHTML = logs.slice().reverse().map(l => `
+    <li class="log-item">
+      <span class="what">${esc(l.items.join(' · '))}</span>
+      <span class="mins">${l.mins} 分钟</span>
+      <span class="when">${esc(l.date)}</span>
+    </li>`).join('');
+  $('#log-empty').style.display = logs.length ? 'none' : 'block';
+}
+$('#save-btn').addEventListener('click', () => {
+  const checked = $$('#chk-items input:checked').map(i => i.value);
+  const mins = parseInt($('#mins-input').value, 10);
+  if(!checked.length){ $('#save-msg').textContent = '请至少选择一项练习内容'; return; }
+  if(!mins || mins < 1){ $('#save-msg').textContent = '请输入有效的练习时长'; return; }
+  logs.push({ items: checked, mins: mins, date: fmtDate(new Date()) });
+  localStorage.setItem(LS_LOGS, JSON.stringify(logs));
+  $('#save-msg').textContent = '已保存';
+  setTimeout(() => { $('#save-msg').textContent = ''; }, 2000);
+  renderLogs();
+});
+
+/* ============ 课程与语法数据 ============ */
+const CORE_LESSONS = ['The Sanskrit language','Basic vowels','Short and long vowels','Semivowels','Compound vowels','Consonants','anusvāra and visarga','Syllables','Sandhi','Sentences','Nominals','Verbs','Uninflected words','Prefixes','Suffixes','Compounds','Review'];
+const FULL_CHAPTERS = [
+  ['0','Introduction（入门与专家导读）'],['1','Core lessons（17 课核心课程）'],['2','Sounds（语音系统）'],
+  ['3','Sandhi（连音规则）'],['4','Nominals 1：Normal stems（名词词干）'],['5','Nominals 2：Pronouns and numbers（代词与数词）'],
+  ['6','Verbs 1：Special tense-moods（动词·特殊时态语态）'],['7','Verbs 2：Other tense-moods（动词·其他时态）'],
+  ['8','Verbs 3：Derived roots（派生词根）'],['9','Uninflected words（不变词）'],['10','Suffixes（后缀）'],
+  ['11','Compounds（复合词）'],['12','Sentences（句子结构）']
+];
+const GRAMMAR_TOPICS = [
+  ['1','Sounds（声音）','Shiva Sutras、savarṇa、it 字母、vidhi 规则、ac/hal 连音、ṣatva/ṇatva'],
+  ['2','tiṅanta（动词）','dhātu 词根、lakāra 时态语态、parasmaipada/ātmanepada、vikaraṇa、guṇa、prakriyā'],
+  ['3','subanta（名词）','prātipadika 词干、kāraka 格义、vibhakti 变格、avyaya 不变词'],
+  ['4','kṛt（动名词）','kṛtya、ghaṇ、kta、śatṛ/śānac 等动词派生命名形式'],
+  ['5','taddhita（名派生）','apatya、atiśāyana、matup 等名词派生后缀'],
+  ['6','samāsa（复合词）','avyayībhāva、tatpuruṣa、bahuvrīhi、dvandva 四类']
+];
+function renderLists(){
+  $('#core-list').innerHTML = CORE_LESSONS.map((t,i)=>`<div class="chapter"><div class="no">${i+1}</div><div class="t">${esc(t)}</div></div>`).join('');
+  $('#full-chapters').innerHTML = FULL_CHAPTERS.map(c=>`<div class="chapter"><div class="no">${esc(c[0])}</div><div><div class="t">${esc(c[1].split('（')[0])}</div><div class="d">${esc(c[1])}</div></div></div>`).join('');
+  $('#grammar-topics').innerHTML = GRAMMAR_TOPICS.map(g=>`<div class="chapter"><div class="no">${esc(g[0])}</div><div><div class="t">${esc(g[1])}</div><div class="d">${esc(g[2])}</div></div></div>`).join('');
+}
+
+/* ============ 初始化 ============ */
+renderCheckinOptions();
+renderAlphabet();
+renderLists();
+renderStats();
+</script>
+
+</body>
+</html>
